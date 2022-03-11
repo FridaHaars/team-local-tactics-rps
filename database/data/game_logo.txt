@@ -1,0 +1,25 @@
+ 
+
+[bold red]___________________________[/bold red] 
+       [bold yellow]W E L C O M E[/bold yellow]
+           [bold yellow]T O[/bold yellow]
+[bold red]_________ _       _________[/bold red]
+[bold orange]\__   __/( (    /|\__   __/[/bold orange]
+[bold yellow]   ) (   |  \  ( |   ) (   [/bold yellow]
+[bold green]   | |   |   \ | |   | |   [/bold green]
+[bold blue]   | |   | (\ \) |   | |   [/bold blue]
+[bold indigo]   | |   | | \   |   | |   [/bold indigo]
+[bold purple]   | |   | )  \  |   | |   [/bold purple]
+[bold pink]   )_(   |/    )_)   )_( [/bold pink]
+
+         [bold yellow]T E A M[/bold yellow]
+      [bold yellow]N E T W O R K[/bold yellow]
+      [bold yellow]T A C T I C S[/bold yellow]
+[bold red]___________________________[/bold red]+
+        [yellow]Created[/yellow]
+           [yellow]by[/yellow]
+  [bold green]@gislek3[/bold green]    [bold blue]@FridaHaars[/bold blue]       
+           [yellow]for[/yellow]
+[bold yellow]INF142 - Computer Networks[/bold yellow]
+   [red]University of Bergen[/red]
+  
