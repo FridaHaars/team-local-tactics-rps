@@ -19,7 +19,6 @@ Loads the following from various files:
 3. The styles of the players themselves, so that they look presentable during combat :)
 '''
 def play() -> None:
-    
     '''
     We need players to play!
     '''
@@ -51,7 +50,7 @@ def play() -> None:
     We get the rolls in condensed string format, such as "rrpssp" which would be rock,rock,paper,scissors,scissors,paper
     '''
     player1_champs, player2_champs = list_of_player_champnames(1),  list_of_player_champnames(2) 
-    player1_rolls, player2_rolls = request.to_server("get_rolls=").split('+')
+    player1_rolls, player2_rolls = request.to_server("from_db=get_rolls=").split('+')
     ''''''
     
 
@@ -144,7 +143,7 @@ def play() -> None:
 Collects our ascii-art logo from a text file in the database
 '''
 def print_logo():
-    part1, part2 = request.to_server("get_logo=").split('+')
+    part1, part2 = request.to_server("from_db=get_logo=").split('+')
     print(part1)
     sleep(0.75)
     print(part2)

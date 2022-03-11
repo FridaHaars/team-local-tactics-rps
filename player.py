@@ -40,7 +40,7 @@ def get_default_players() -> tuple[Player]:
 Will affect the player profile of the client making the request
 """
 def set_player_style(new_name : str, new_color : str) -> None: 
-    request.to_server(f"set_style={new_name},{new_color}")
+    request.to_server(f"from_db=set_style={new_name},{new_color}")
 
 
 
@@ -48,7 +48,7 @@ def set_player_style(new_name : str, new_color : str) -> None:
 Helper function -> update_player_styles
 """
 def get_styles() -> str:
-    return request.to_server(f"get_styles=")
+    return request.to_server(f"from_db=get_styles=")
 
 
 """

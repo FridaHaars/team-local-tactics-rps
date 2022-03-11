@@ -23,64 +23,58 @@ def read(conn):
 
 
 '''
-TODO: fikse disse
+Delegates work to different functions inside of this file, similar to what's going on in server.py
 '''
-def response(arg: str) -> str:
-    player_id = int(arg[-1])
-    request = arg[:-1]
-
-    if request == "restart":
+def response(request: str) -> str:
+    func, arg = request.split("=", 1)
+    id = int(arg[-1])
+    arg = arg[:-1]
+    
+    if func == "restart":
         clear_all()
         return "void"
-
-    elif request == "set_style":
+    
+    elif func == "set_style":
         name, color = arg.split(',')
         set_style(name, color, id)
         return "void"
 
-    elif request == "save_champ":
-        print(f"Player {arg[-1]} registered {arg[:-1].split(',')[0]} to their team!")
-        save(arg)
+    elif func == "save_champ":
+        print(f"Player {id} registered {func.split(',')[0]} to their team!")
+        save(arg, id)
         return "void"
 
-    elif request == "save_champ":
-        print(f"Player {arg[-1]} registered {arg[:-1].split(',')[0]} to their team!")
-        save(arg)
-        return "void"
-
-    elif request == "delete_champ":
-        remove(arg[:-1])
+    elif func == "delete_champ":
+        remove(arg)
         return "void"
         
-    elif request == "save_toall":
-        return save_toall(arg[:-1])
-        '''
-    elif request == "clear_all":
+    elif func == "save_toall":
+        save_toall(arg)
+        return "void"
+    
+    elif func == "clear_all":
         clear_all()         
         return "void"  
 
-    elif request == "all_champs":
+    elif func == "get_all":
         return get_all()
 
-    elif request == "get_frompl":
-        get_pl(arg[:-1])
-        return "void"
+    elif func == "get_frompl":
+        return get_pl(arg[-1])
 
-    elif request == "get_styles":
-        get_styles()
-        return "void"
+    elif func == "get_styles":
+        return get_styles()
 
-    elif request == "get_logo":
+    elif func == "get_logo":
         return get_logo()
 
-    elif request == "set_rolls":
+    elif func == "set_rolls":
         set_rolls()
         return "void"
         
-    elif request == "get_rolls":
-        get_rolls()
-        return "void"
-    '''
+    elif func == "get_rolls":
+        return get_rolls()
+    
 
     
 
@@ -148,12 +142,11 @@ def get_rolls():
     
              
 '''
-Saves a single champion in the active selection of the player whose client requested it
+Saves a champion to the player's current selection, a champ string is in the format Name,0.32,0.52,0.29 or whatever.
 '''
-def save(champname_and_id : str) -> None:        
-    player_id = champname_and_id[-1]
-    with open(f'database/active_game/player{player_id}_selection.csv', 'a') as _in:
-        _in.write('\n' + champname_and_id[:-1])  #:-1 to remove the id tag at the end, which is added server-side to identify the clients
+def save(champ_string : str, id : int) -> None:        
+    with open(f'database/active_game/player{id}_selection.csv', 'a') as _in:
+        _in.write('\n' + champ_string)  
 '''
 '''
 
@@ -174,7 +167,7 @@ def get_pl(id : int) -> str:
 Called at the end of each game to clear player selection
 '''
 def clear_all() -> None:
-    for n in range(1, 3):                        #removes the selections for both, called at the end of each round
+    for n in range(1, 3):                        #removes the selections for both, called at the end of each game
         with open(f'database/active_game/player{n}_selection.csv', 'w') as _in:
             _in.write("None,1.0,1.0,1.0")        #a default value is stored in both files as empty files caused an infinite loop, this line is ignored later
 '''
@@ -184,15 +177,15 @@ def clear_all() -> None:
 '''
 Removes a single champion from the main database
 '''
-def remove(champ : str) -> None:
+def remove(input_champ : str) -> None:
     list_of_champ_strings = get_all().split('+')
-    print(list_of_champ_strings)
-    print(champ)
-    list_of_champ_strings.remove(champ)
+    list_of_champ_strings.remove(input_champ)
+    
     
     with open("database/champions/champions.csv", 'w') as _in:
+        _in.write('None,1.0,1.0,1.0')                  #placeholder allows us to consistently add \n to beginning without problems
         for remaining_champ in list_of_champ_strings:
-            _in.write(remaining_champ + "\n")
+            _in.write("\n" + remaining_champ.strip())
 '''
 '''
 
@@ -211,8 +204,7 @@ Gets all champions from the main database'''
 def get_all() -> str:                                
     with open('database/champions/champions.csv', 'r') as _in:
         fileread = _in.readlines()
-        
-    return "+".join([line.strip() for line in fileread])
+    return "+".join([line.strip() for line in fileread][1:])
 '''
 '''
     
@@ -224,7 +216,7 @@ def set_style(name, color, id) -> None:
     with open('database/profiles/styles.csv', 'r') as _in:
         styles = [el.strip() for el in _in.readlines()]
     
-    styles[id] = f"{name},{color}"
+    styles[id-1] = f"{name},{color}"
     
     with open('database/profiles/styles.csv', 'w') as _out:
         for line in styles:

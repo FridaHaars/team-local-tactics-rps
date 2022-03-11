@@ -22,5 +22,3 @@ class Request:
 sock = socket()
 sock.connect(("localhost", 12000))
 request = Request(sock)
-print(request.to_server("from_db=champs"))
-    

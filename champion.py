@@ -54,7 +54,7 @@ class Champion:
 These are pretty self-explanatory functions. Just look at the function name, input type and return type
 '''
 def get_all() -> list[Champion]:
-    str_list = request.to_server(f"all_champs=").split('+')
+    str_list = request.to_server(f"from_db=get_all=").split('+')
     return [string_to_object(champ) for champ in str_list]
 
 
@@ -78,7 +78,7 @@ def object_from_name(name : str) -> Champion:
         
 
 def list_of_player_selection(player_id : int) -> list[Champion]:
-    string = request.to_server(f"get_frompl={player_id}")
+    string = request.to_server(f"from_db=get_frompl={player_id}")
     return [string_to_object(champ) for champ in string.split('+')][1:]
 
 
@@ -93,7 +93,7 @@ Functions which interact with the databases via the server, such as adding, dele
 def save_to_player_selection(champ : Champion) -> None:
     as_string = ",".join(champ.str_tuple)
     
-    request.to_server(f"save_champ={as_string}")
+    request.to_server(f"from_db=save_champ={as_string}")
 
 
 def save_name_to_roster(champ : str) -> None:
@@ -103,7 +103,7 @@ def save_name_to_roster(champ : str) -> None:
 def save_to_roster(champ : Champion) -> None:
     as_string = ",".join(champ.str_tuple)
     
-    request.to_server(f"save_toall={as_string}")
+    request.to_server(f"from_db=save_toall={as_string}")
 
 
 def delete_from_roster(name : str) -> None:
@@ -111,4 +111,4 @@ def delete_from_roster(name : str) -> None:
     as_string = ",".join(obj.str_tuple)
     
     print(as_string)
-    request.to_server(f"delete_champ={as_string}")
+    request.to_server(f"from_db=delete_champ={as_string}")

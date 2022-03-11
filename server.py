@@ -73,12 +73,8 @@ def response(request: str) -> str:
     to encode it in order to send it back to the client. The encoded "void" does not actually do anything
     '''
     
-    func, arg = request.split("=")
-    
-    if func == "restart":
-        selection_count = 0        
-        return request_from_database(db_sock, arg)     
-    elif func == "inc_scount":
+    func, arg = request.split("=", 1)    
+    if func == "inc_scount":
         selection_count += 1
         return "void"
     elif func == "get_scount":
@@ -86,6 +82,8 @@ def response(request: str) -> str:
     elif func == "check_id":
         return arg
     elif func == "from_db":
+        if "restart" in arg:
+            selection_count = 0
         return request_from_database(db_sock, arg)
         
 

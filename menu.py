@@ -61,7 +61,7 @@ def champion_selection():
         
         if int(request.to_server("get_scount=")) == 4:
             if get_current_id() == "1":
-                request.to_server("set_rolls=")
+                request.to_server("from_db=set_rolls=")
             break
  
     
@@ -193,7 +193,7 @@ def menu_print_champs():
     available_champs.add_column("prob(:raised_hand-emoji:)", justify="center")
     available_champs.add_column("prob(:victory_hand-emoji:)", justify="center")
 
-    
+
     # Populate the table
     for champion in get_all():
         available_champs.add_row(*champion.str_tuple)
@@ -234,7 +234,7 @@ Resets the server-side counter and calls relevant functions which simulate gamep
 After this has happened, the main gameplay portion is over.
 '''
 def menu_play():
-    request.to_server("restart=")
+    request.to_server("from_db=restart=")
     menu_print_champs()
     champion_selection()
     play()
